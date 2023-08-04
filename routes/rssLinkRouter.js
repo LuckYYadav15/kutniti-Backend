@@ -1,0 +1,14 @@
+// import controllers review, products
+const rssController = require("../controllers/rssLinkController");
+
+// router
+const router = require("express").Router();
+
+// use routers
+
+router.get("/allLinks", rssController.getAllrssLinks);
+router.get("/oneLink", rssController.getOnerssLink);
+router.post("/addLink", rssController.addLink);
+router.post("/deleteLink", rssController.deleterssLink);
+
+module.exports = router;
