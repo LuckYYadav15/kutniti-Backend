@@ -26,5 +26,5 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) =>
-  res.json(`Kutniti bacend is running on port ${PORT}`)
+  res.json(`Kutniti backend is running on port ${PORT}`)
 );

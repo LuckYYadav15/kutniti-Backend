@@ -3,9 +3,9 @@ module.exports = (sequelize, Sequelize) => {
     "articles",
     {
       article_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
-        autoIncrement: true,
       },
       title: {
         type: Sequelize.STRING(255),
@@ -36,12 +36,8 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      isoDate: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       country_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: {
           model: "rssLinks", // Assuming you have a table named "rssLinks" with "country_id" as the primary key
