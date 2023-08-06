@@ -17,7 +17,7 @@ app.use("/api/article", articlerouter);
 
 //port
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 8000;
 
 //server
 
