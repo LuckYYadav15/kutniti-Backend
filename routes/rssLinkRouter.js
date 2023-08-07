@@ -10,5 +10,6 @@ router.get("/allLinks", rssController.getAllrssLinks);
 router.get("/oneLink", rssController.getOnerssLink);
 router.post("/addLink", rssController.addLink);
 router.post("/deleteLink", rssController.deleterssLink);
+router.post("/deleteAllLink", rssController.deleterssAllLink);
 
 module.exports = router;

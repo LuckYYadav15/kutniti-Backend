@@ -2,11 +2,6 @@ module.exports = (sequelize, Sequelize) => {
   const Article = sequelize.define(
     "articles",
     {
-      article_id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        primaryKey: true,
-      },
       title: {
         type: Sequelize.STRING(255),
         allowNull: false,
@@ -14,6 +9,7 @@ module.exports = (sequelize, Sequelize) => {
       link: {
         type: Sequelize.STRING(255),
         primaryKey: true,
+        unique: true,
         allowNull: false,
       },
       pubDate: {
@@ -40,7 +36,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
-          model: "rssLinks", // Assuming you have a table named "rssLinks" with "country_id" as the primary key
+          model: "rssLinks",
           key: "country_id",
         },
       },

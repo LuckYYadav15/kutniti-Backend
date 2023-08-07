@@ -1,3 +1,5 @@
+// virginia server configs
+
 // module.exports = {
 //   HOST: "kutniti-e1-db-1.caj3jyrl5lrm.us-east-1.rds.amazonaws.com",
 //   PORT: 3306,
@@ -14,6 +16,8 @@
 //   },
 // };
 
+
+// mumbai server configs
 module.exports = {
   HOST: "kutniti-db.ct2rugabqlwi.ap-south-1.rds.amazonaws.com",
   PORT: 3306,

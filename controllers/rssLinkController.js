@@ -60,9 +60,23 @@ const deleterssLink = async (req, res) => {
   res.status(200).send("Link is deleted !");
 };
 
+const deleterssAllLink = async (req, res) => {
+  try {
+    await RSSLink.destroy({
+      where: {}, // Empty object means no specific conditions, so it will delete all entries
+    });
+
+    res.status(200).send("All links are deleted !");
+  } catch (error) {
+    console.error("Error deleting links:", error);
+    res.status(500).send("An error occurred while deleting links.");
+  }
+};
+
 module.exports = {
   addLink,
   getAllrssLinks,
   getOnerssLink,
-  deleterssLink, 
+  deleterssLink,
+  deleterssAllLink,
 };
