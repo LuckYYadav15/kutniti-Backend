@@ -135,7 +135,7 @@ const fetchDataAndStoreInArticle = async (req, res) => {
     //   createdArticles.map((article) => article.get())
     // );
 
-    res.status(200).send(createdArticles);
+    res.status(200).send("createdArticles");
   } catch (error) {
     console.error("Error fetching and storing data:", error);
     res.status(500).send("Internal Server Error");
@@ -209,7 +209,7 @@ const fetchDataDailyArticle = async (req, res) => {
           );
 
           articles = [...articles, ...newArticles];
-          res.status(200).send(createdArticles);
+          res.status(200).send("createdArticles");
         } catch (error) {
           console.error(`Error parsing RSS link ${link}:`, error);
         }

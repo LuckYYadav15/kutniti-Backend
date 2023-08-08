@@ -2,6 +2,11 @@ module.exports = (sequelize, Sequelize) => {
   const CountryCount = sequelize.define(
     "countryCount",
     {
+      country_id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+      },
       countryName: {
         type: Sequelize.STRING(255),
         allowNull: false,
@@ -12,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       flagLogo: {
         type: Sequelize.STRING(255),
-        primaryKey: true,
+        // primaryKey: true,
       },
       Articles: {
         type: Sequelize.INTEGER,
@@ -26,6 +31,5 @@ module.exports = (sequelize, Sequelize) => {
   return CountryCount;
 };
 
-
 // aws sdk -> s3
-// 
+//
