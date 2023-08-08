@@ -4,18 +4,20 @@ const db = require("../models");
 const CountryCount = db.countries;
 const Article = db.articles;
 const RSSLink = db.rssLinks;
+
 const addCountry = async (req, res) => {
   try {
-    const { country, type, flagLogo, Articles } = req.body;
+    const { countryName, type, flagLogo, Articles } = req.body;
 
     // Create a CountryCount record
     const countryCount = await CountryCount.create({
-      country: country,
+      countryName: countryName,
       type: type,
       flagLogo: flagLogo,
       Articles: Articles,
     });
-
+    console.log(countryCount.countryName);
+    console.log(typeof(countryCount.countryName));
     res.status(201).json(countryCount);
   } catch (error) {
     console.error("Error creating CountryCount:", error);
@@ -23,7 +25,7 @@ const addCountry = async (req, res) => {
   }
 };
 
-const countryArticles = async (req, res) => {
+const allcountryArticles = async (req, res) => {
   try {
     const { country, type } = req.body;
 
@@ -34,6 +36,7 @@ const countryArticles = async (req, res) => {
         type: type,
       },
     });
+    console.log(country);
 
     if (!rssLink) {
       return res
@@ -42,6 +45,7 @@ const countryArticles = async (req, res) => {
     }
 
     const country_id = rssLink.country_id;
+    console.log(country_id);
 
     // Fetch the total number of articles for the given country
     const totalArticles = await Article.count({
@@ -49,6 +53,7 @@ const countryArticles = async (req, res) => {
         country_id: country_id,
       },
     });
+    console.log(totalArticles);
 
     // Update or create a CountryCount record for the given country and type
     const [countryCount, created] = await CountryCount.findOrCreate({
@@ -76,4 +81,4 @@ const countryArticles = async (req, res) => {
   }
 };
 
-module.exports = { countryArticles, addCountry };
+module.exports = { allcountryArticles, addCountry };
