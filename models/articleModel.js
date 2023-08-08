@@ -2,14 +2,17 @@ module.exports = (sequelize, Sequelize) => {
   const Article = sequelize.define(
     "articles",
     {
+      article_id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+      },
       title: {
         type: Sequelize.STRING(255),
         allowNull: false,
       },
       link: {
         type: Sequelize.STRING(255),
-        primaryKey: true,
-        unique: true,
         allowNull: false,
       },
       pubDate: {

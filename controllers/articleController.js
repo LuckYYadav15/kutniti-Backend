@@ -218,8 +218,8 @@ const fetchDataDailyArticle = async (req, res) => {
 
     // Store the data in the Article model using the bulkCreate method
     // const createdArticles = await Article.bulkCreate(articles);
-    console.log("All articles created and stored");
-    res.status(200).send(createdArticles);
+    // console.log("All articles created and stored");
+    res.status(200).send("All articles created and stored");
   } catch (error) {
     console.error("Error fetching and storing data:", error);
     res.status(500).send("Internal Server Error");
