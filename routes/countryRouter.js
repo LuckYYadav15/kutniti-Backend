@@ -7,6 +7,6 @@ cron.schedule("10 0 * * *", () => {
 });
 
 router.post("/addCountry", countryController.addCountry);
-router.post("/countryArticles", countryController.allcountryArticles);
+router.post("/allcountryArticles", countryController.allcountryArticles);
 
 module.exports = router;
