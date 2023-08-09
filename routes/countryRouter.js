@@ -10,5 +10,6 @@ cron.schedule("10 0 * * *", () => {
 router.post("/addCountry", countryController.addCountry);
 router.get("/allcountryArticles", countryController.allcountryArticles);
 router.post("/deleteCountry", countryController.deleteCountry);
+router.get("/getaCountryArticle", countryController.getaCountryArticle);
 
 module.exports = router;

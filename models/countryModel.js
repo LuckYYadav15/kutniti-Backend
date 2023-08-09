@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
   const CountryCount = sequelize.define(
     "countryCount",
     {
-      country_id: {
+      flag_id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,

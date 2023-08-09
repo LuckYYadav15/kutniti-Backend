@@ -135,7 +135,7 @@ const fetchDataAndStoreInArticle = async (req, res) => {
     //   createdArticles.map((article) => article.get())
     // );
 
-    res.status(200).send("createdArticles");
+    res.status(200).send(createdArticles);
   } catch (error) {
     console.error("Error fetching and storing data:", error);
     res.status(500).send("Internal Server Error");
@@ -197,7 +197,11 @@ const fetchDataDailyArticle = async (req, res) => {
 
               if (!existingArticle) {
                 const [article, created] = await Article.findOrCreate({
-                  where: { link: newArticle.link },
+                  where: {
+                    link: newArticle.link,
+                    country_id: country_id,
+                    author: newArticle.author,
+                  },
                   defaults: newArticle,
                 });
 
@@ -209,7 +213,6 @@ const fetchDataDailyArticle = async (req, res) => {
           );
 
           articles = [...articles, ...newArticles];
-          res.status(200).send("createdArticles");
         } catch (error) {
           console.error(`Error parsing RSS link ${link}:`, error);
         }
@@ -219,7 +222,7 @@ const fetchDataDailyArticle = async (req, res) => {
     // Store the data in the Article model using the bulkCreate method
     // const createdArticles = await Article.bulkCreate(articles);
     console.log("All articles created and stored");
-    res.status(200).send(createdArticles);
+    res.status(200).send("createdArticles"); // Sending the response after the loop
   } catch (error) {
     console.error("Error fetching and storing data:", error);
     res.status(500).send("Internal Server Error");

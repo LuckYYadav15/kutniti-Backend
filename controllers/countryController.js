@@ -46,24 +46,6 @@ const getAllCountryData = async (req, res) => {
 
 const allcountryArticles = async (req, res) => {
   try {
-    // // Find the country_id for the given country and type
-    // const rssLink = await RSSLink.findOne({
-    //   where: {
-    //     country: country,
-    //     type: type,
-    //   },
-    // });
-    // console.log(country);
-
-    // if (!rssLink) {
-    //   return res
-    //     .status(404)
-    //     .json({ error: "RSSLink not found for the provided country and type" });
-    // }
-
-    // const country_id = rssLink.country_id;
-    // console.log(country_id);
-
     // Fetch the total number of articles for the given country
     const countryLinkData = await getAllCountryData();
 
@@ -109,6 +91,31 @@ const allcountryArticles = async (req, res) => {
   }
 };
 
+// Get number of articles for a country
+const getaCountryArticle = async (req, res) => {
+  try {
+    const { countryName, type } = req.body;
+
+    // Fetch the flagLogo and Articles for the given countryName and type
+    const countryData = await CountryCount.findOne({
+      where: {
+        countryName: countryName,
+        type: type,
+      },
+      attributes: ["flagLogo", "Articles"],
+    });
+
+    if (!countryData) {
+      return res.status(404).json({ error: "Country data not found" });
+    }
+
+    res.status(200).json(countryData);
+  } catch (error) {
+    console.error("Error fetching country data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteCountry = async (req, res) => {
   try {
     await CountryCount.destroy({
@@ -122,4 +129,4 @@ const deleteCountry = async (req, res) => {
   }
 };
 
-module.exports = { allcountryArticles, addCountry, deleteCountry };
+module.exports = { allcountryArticles, addCountry,getaCountryArticle, deleteCountry };
