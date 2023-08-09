@@ -1,9 +1,12 @@
+const AWS = require("aws-sdk");
 const db = require("../models");
 
 // create main Model
 const CountryCount = db.countries;
 const Article = db.articles;
 const RSSLink = db.rssLinks;
+
+const s3 = new AWS.S3();
 
 const addCountry = async (req, res) => {
   try {
@@ -44,7 +47,7 @@ const getAllCountryData = async (req, res) => {
   }
 };
 
-const allcountryArticles = async (req, res) => {
+const storeAllcountryArticles = async (req, res) => {
   try {
     // Fetch the total number of articles for the given country
     const countryLinkData = await getAllCountryData();
@@ -94,18 +97,17 @@ const allcountryArticles = async (req, res) => {
 // Get number of articles for a country
 const getaCountryArticle = async (req, res) => {
   try {
-    const { countryName, type } = req.body;
+    const { countryName } = req.body;
 
-    // Fetch the flagLogo and Articles for the given countryName and type
-    const countryData = await CountryCount.findOne({
+    // Fetch the flagLogo, Articles, and type for the given countryName
+    const countryData = await CountryCount.findAll({
       where: {
         countryName: countryName,
-        type: type,
       },
-      attributes: ["flagLogo", "Articles"],
+      attributes: ["countryName", "flagLogo", "Articles", "type"],
     });
 
-    if (!countryData) {
+    if (!countryData || countryData.length === 0) {
       return res.status(404).json({ error: "Country data not found" });
     }
 
@@ -129,4 +131,11 @@ const deleteCountry = async (req, res) => {
   }
 };
 
-module.exports = { allcountryArticles, addCountry,getaCountryArticle, deleteCountry };
+
+
+module.exports = {
+  storeAllcountryArticles,
+  addCountry,
+  getaCountryArticle,
+  deleteCountry,
+};
