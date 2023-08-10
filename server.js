@@ -1,7 +1,32 @@
+// Master file for backend
+
+//------------------------------------ ---------MODULES---------------------------------------------
 const express = require("express");
 const cors = require("cors");
 
+//---------------------------------------------VARIABLES--------------------------------------------
+const PORT = process.env.PORT || 8000;
+
+//---------------------------------------------INSTANCE---------------------------------------------
 const app = express();
+
+
+
+const allowedOrigins = ["http://localhost:3000"];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET, POST, PUT, DELETE",
+  allowedHeaders: "Content-Type, Authorization",
+};
+
+app.use(cors(corsOptions));
 
 // middleware
 
@@ -9,7 +34,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-// routers
+//---------------------------------------------MIDDLEWARES------------------------------------------
 const rssLinkrouter = require("./routes/rssLinkRouter.js");
 const articlerouter = require("./routes/articleRouter.js");
 const countryrouter = require("./routes/countryRouter.js");
@@ -18,12 +43,8 @@ app.use("/api", rssLinkrouter);
 app.use("/api/article", articlerouter);
 app.use("/api/country", countryrouter);
 
-//port
 
-const PORT = process.env.PORT || 8000;
-
-//server
-
+//---------------------------------------------SERVER------------------------------------------
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });
