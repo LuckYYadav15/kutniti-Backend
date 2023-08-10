@@ -1,5 +1,15 @@
 const AWS = require("aws-sdk");
 const db = require("../models");
+const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+
+S3C = new S3Client({
+  region: "ap-south-1",
+  credentials: {
+    assessKeyId: "AKIA5GMCKTUOZR3BINJZ",
+    secretAccessKey: "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",
+  },
+});
 
 // create main Model
 const CountryCount = db.countries;
@@ -137,9 +147,25 @@ const deleteCountry = async (req, res) => {
   }
 };
 
+const getFlagUrl = async (req, res) => {
+  try {
+    const command = new GetObjectCommand({
+      Bucket: "kutniti-country-logo",
+      Key: "Flag_of_Brazil.svg",
+    });
+    const url = await getSignedUrl(S3C, command);
+    console.log(url);
+    return url;
+  } catch (error) {
+    console.error("Error getting flag URL:", error);
+    throw new Error("An error occurred while getting flag URL.");
+  }
+};
+
 module.exports = {
   storeAllCountryArticles,
   addCountry,
   getaCountryArticle,
   deleteCountry,
+  getFlagUrl,
 };

@@ -11,5 +11,6 @@ router.post("/addCountry", countryController.addCountry);
 router.get("/allcountryArticles", countryController.storeAllCountryArticles);
 router.post("/deleteCountry", countryController.deleteCountry);
 router.get("/getaCountryArticle", countryController.getaCountryArticle);
+router.get("/getFlagUrl", countryController.getFlagUrl);
 
 module.exports = router;
