@@ -8,7 +8,7 @@ cron.schedule("10 0 * * *", () => {
 });
 
 router.post("/addCountry", countryController.addCountry);
-router.get("/allcountryArticles", countryController.storeAllcountryArticles);
+router.get("/allcountryArticles", countryController.storeAllCountryArticles);
 router.post("/deleteCountry", countryController.deleteCountry);
 router.get("/getaCountryArticle", countryController.getaCountryArticle);
 

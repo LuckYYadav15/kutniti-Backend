@@ -47,7 +47,7 @@ const getAllCountryData = async (req, res) => {
   }
 };
 
-const storeAllcountryArticles = async (req, res) => {
+const storeAllCountryArticles = async (req, res) => {
   try {
     // Fetch the total number of articles for the given country
     const countryLinkData = await getAllCountryData();
@@ -66,25 +66,31 @@ const storeAllcountryArticles = async (req, res) => {
 
       console.log(`Total articles for ${country}: ${totalArticles}`);
 
-      // Update or create a CountryCount record for the current country and type
-      const [countryCount, created] = await CountryCount.findOrCreate({
+      // Find a CountryCount record for the current country and type
+      const existingCountryCount = await CountryCount.findOne({
         where: {
           countryName: country,
           type: type,
         },
-        defaults: {
-          Articles: totalArticles,
-        },
       });
 
-      // If the record was not created, update the Articles count
-      if (!created) {
-        await countryCount.update({
+      if (existingCountryCount) {
+        // Update the existing CountryCount record
+        await existingCountryCount.update({
           Articles: totalArticles,
         });
-      }
 
-      console.log(`CountryCount updated for ${country}`);
+        console.log(`CountryCount updated for ${country}`);
+      } else {
+        // Create a new CountryCount record if it doesn't exist
+        await CountryCount.create({
+          countryName: country,
+          type: type,
+          Articles: totalArticles,
+        });
+
+        console.log(`CountryCount created for ${country}`);
+      }
     }
 
     res.status(200).json({ message: "CountryCounts updated successfully" });
@@ -131,10 +137,8 @@ const deleteCountry = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
-  storeAllcountryArticles,
+  storeAllCountryArticles,
   addCountry,
   getaCountryArticle,
   deleteCountry,
