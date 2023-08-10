@@ -124,6 +124,25 @@ const getaCountryArticle = async (req, res) => {
   }
 };
 
+const getallCountryArticles = async (req, res) => {
+  try {
+    // Fetch the flagLogo, Articles, and type for the given countryName
+    const countryData = await CountryCount.findAll({
+      where: {},
+      attributes: ["countryName", "flagLogo", "Articles", "type"],
+    });
+
+    if (!countryData || countryData.length === 0) {
+      return res.status(404).json({ error: "Country data not found" });
+    }
+
+    res.status(200).json(countryData);
+  } catch (error) {
+    console.error("Error fetching country data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteCountry = async (req, res) => {
   try {
     await CountryCount.destroy({
@@ -141,5 +160,6 @@ module.exports = {
   storeAllCountryArticles,
   addCountry,
   getaCountryArticle,
+  getallCountryArticles,
   deleteCountry,
 };
