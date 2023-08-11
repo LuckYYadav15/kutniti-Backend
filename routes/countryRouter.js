@@ -3,7 +3,7 @@ const countryController = require("../controllers/countryController");
 const router = require("express").Router();
 const cron = require("node-cron");
 
-cron.schedule("5 1 * * *", () => {
+cron.schedule("5 6 * * *", () => {
   countryController.storeAllCountryArticles();
 });
 

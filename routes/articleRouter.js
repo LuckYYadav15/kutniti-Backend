@@ -6,7 +6,7 @@ const cron = require("node-cron");
 const router = require("express").Router();
 
 // Schedule the fetchDataDailyArticle function to run every day at 00:00 AM
-cron.schedule("0 1 * * *", () => {
+cron.schedule("0 5 * * *", () => {
   articleController.fetchDataDailyArticle();
 });
 // route to add article to database
