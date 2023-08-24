@@ -1,5 +1,5 @@
 const db = require("../models");
-
+const { Op } = require("sequelize");
 // create main Model
 const Article = db.articles;
 const RSSLink = db.rssLinks;
@@ -270,9 +270,35 @@ const deleteAllarticles = async (req, res) => {
   }
 };
 
+const getArticlesForMonths = async (req, res) => {
+  try {
+    const months = parseInt(req.body.months);
+
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - months);
+
+    const articles = await Article.findAll({
+      where: {
+        pubDate: {
+          [Op.gte]: startDate,
+        },
+      },
+      order: [["pubDate", "DESC"]],
+    });
+
+    res.json(articles);
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching articles." });
+  }
+};
+
 module.exports = {
   addArticle,
   fetchDataAndStoreInArticle,
+  getArticlesForMonths,
   getAllArticles,
   getCountryId,
   fetchDataDailyArticle,
