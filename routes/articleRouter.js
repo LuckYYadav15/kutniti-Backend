@@ -21,4 +21,6 @@ router.get("/getCountry", articleController.getCountryId);
 router.get("/getArticleDaily", articleController.fetchDataDailyArticle);
 //  route to delete all articles
 router.post("/deleteAllArticles", articleController.deleteAllarticles);
+// GET /api/articles/:months
+router.get("/articles/months", articleController.getArticlesForMonths);
 module.exports = router;
