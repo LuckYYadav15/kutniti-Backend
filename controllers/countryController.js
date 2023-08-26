@@ -156,10 +156,70 @@ const deleteCountry = async (req, res) => {
   }
 };
 
+// const getoneCountryArticles = async (req, res) => {
+//   const countryName = req.body.countryName;
+
+//   try {
+//     const articles = await Article.findAll({
+//       attributes: ["articleNumber", "pubDate", "articleType"],
+//       where: {
+//         country: countryName,
+//       },
+//     });
+
+//     const formattedArticles = articles.map((article) => ({
+//       number: article.articleNumber,
+//       pubDate: article.pubDate,
+//       type: article.articleType,
+//     }));
+
+//     res.status(200).json(formattedArticles);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
+const getoneCountryArticles = async (req, res) => {
+  try {
+    console.log("getoneCountryArticles");
+    // Fetch country_id, country, and type from rssLinks
+    const rssLinksData = await RSSLink.findAll({
+      where: { country: req.body.countryName },
+      attributes: ["country_id", "country", "type"],
+    });
+
+    const pubDatePromises = rssLinksData.map(async (rssLink) => {
+      const pubDates = await Article.findAll({
+        attributes: ["pubDate"],
+        where: {
+          country_id: rssLink.country_id
+        },
+      });
+
+      return {
+        country_id: rssLink.country_id,
+        country: rssLink.country,
+        type: rssLink.type,
+        pubDates: pubDates.map((article) => article.pubDate),
+      };
+    });
+
+    const countryPubDates = await Promise.all(pubDatePromises);
+
+    res.status(200).json(countryPubDates);
+    // res.status(200).json(rssLinksData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   storeAllCountryArticles,
   addCountry,
   getaCountryArticle,
+  getoneCountryArticles,
   getallCountryArticles,
   deleteCountry,
 };
