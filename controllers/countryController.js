@@ -156,51 +156,24 @@ const deleteCountry = async (req, res) => {
   }
 };
 
-// const getoneCountryArticles = async (req, res) => {
-//   const countryName = req.body.countryName;
-
-//   try {
-//     const articles = await Article.findAll({
-//       attributes: ["articleNumber", "pubDate", "articleType"],
-//       where: {
-//         country: countryName,
-//       },
-//     });
-
-//     const formattedArticles = articles.map((article) => ({
-//       number: article.articleNumber,
-//       pubDate: article.pubDate,
-//       type: article.articleType,
-//     }));
-
-//     res.status(200).json(formattedArticles);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
+// get one country's number of articles of all types
 const getoneCountryArticles = async (req, res) => {
   try {
-    console.log("getoneCountryArticles");
     // Fetch country_id, country, and type from rssLinks
-    const rssLinksData = await RSSLink.findAll({
-      where: { country: req.body.countryName },
-      attributes: ["country_id", "country", "type"],
-    });
+    const countryLinkData = await getAllCountryData();
 
-    const pubDatePromises = rssLinksData.map(async (rssLink) => {
+    const pubDatePromises = countryLinkData.map(async (countryData) => {
       const pubDates = await Article.findAll({
         attributes: ["pubDate"],
         where: {
-          country_id: rssLink.country_id
+          country_id: countryData.country_id,
         },
       });
 
       return {
-        country_id: rssLink.country_id,
-        country: rssLink.country,
-        type: rssLink.type,
+        country_id: countryData.country_id,
+        country: countryData.country,
+        type: countryData.type,
         pubDates: pubDates.map((article) => article.pubDate),
       };
     });
@@ -214,6 +187,34 @@ const getoneCountryArticles = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+// get all countries number of articles of all types
+const getallCountryArticlesMonth = async (req, res) => {
+  try {
+    // Fetch country_id, country, and type from rssLinks
+    const countryLinkData = await getAllCountryData();
+
+    const pubDatePromises = countryLinkData.map((countryData) => {
+      return Article.findAll({
+        attributes: ["pubDate"],
+        where: {
+          country_id: countryData.country_id,
+        },
+      }).then((pubDates) => ({
+        country_id: countryData.country_id,
+        country: countryData.country,
+        type: countryData.type,
+        pubDates: pubDates.map((article) => article.pubDate),
+      }));
+    });
+
+    const countryPubDates = await Promise.all(pubDatePromises);
+
+    res.status(200).json(countryPubDates);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error: " + error.message);
+  }
+};
 
 module.exports = {
   storeAllCountryArticles,
@@ -221,5 +222,6 @@ module.exports = {
   getaCountryArticle,
   getoneCountryArticles,
   getallCountryArticles,
+  getallCountryArticlesMonth,
   deleteCountry,
 };

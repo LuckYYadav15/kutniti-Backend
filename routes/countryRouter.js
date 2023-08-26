@@ -14,5 +14,6 @@ router.post("/getaCountryArticle", countryController.getaCountryArticle);
 router.get("/getallCountryArticles", countryController.getallCountryArticles);
 // router.post("/getoneCountryArticles", countryController.getoneCountryArticles);
 router.post("/getoneCountryArticles", countryController.getoneCountryArticles);
+router.post("/getallCountryArticlesMonth", countryController.getallCountryArticlesMonth);
 
 module.exports = router;
