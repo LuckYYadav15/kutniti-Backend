@@ -160,20 +160,24 @@ const deleteCountry = async (req, res) => {
 const getoneCountryArticles = async (req, res) => {
   try {
     // Fetch country_id, country, and type from rssLinks
-    const countryLinkData = await getAllCountryData();
+    const rssLinksData = await RSSLink.findAll({
+      where: { country: req.body.countryName },
+      attributes: ["country_id", "country", "type"],
+    });
+    
 
-    const pubDatePromises = countryLinkData.map(async (countryData) => {
+    const pubDatePromises = rssLinksData.map(async (rssLink) => {
       const pubDates = await Article.findAll({
         attributes: ["pubDate"],
         where: {
-          country_id: countryData.country_id,
+          country_id: rssLink.country_id,
         },
       });
 
       return {
-        country_id: countryData.country_id,
-        country: countryData.country,
-        type: countryData.type,
+        country_id: rssLink.country_id,
+        country: rssLink.country,
+        type: rssLink.type,
         pubDates: pubDates.map((article) => article.pubDate),
       };
     });
