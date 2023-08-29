@@ -3,6 +3,7 @@
 //------------------------------------ ---------MODULES---------------------------------------------
 const express = require("express");
 const cors = require("cors");
+const { swaggerServe, swaggerSetup } = require('./config/swaggerConfig')
 
 //---------------------------------------------VARIABLES--------------------------------------------
 const PORT = process.env.PORT || 8000;
@@ -31,6 +32,8 @@ app.use(cors(corsOptions));
 // middleware
 
 app.use(express.json());
+
+app.use("/api-docs", swaggerServe, swaggerSetup); 
 
 app.use(express.urlencoded({ extended: true }));
 

@@ -44,8 +44,9 @@ const getAllrssLinks = async (req, res) => {
 
 const getOnerssLink = async (req, res) => {
   // let id = req.params.id
+  country = req.body.country;
   // console.log("One link from rssLinks");
-  let rsslink = await RSSLink.findAll({ where: { country: "France" } });
+  let rsslink = await RSSLink.findAll({ where: { country: country } });
   // console.log(rsslink);
   res.status(200).send(rsslink);
 };

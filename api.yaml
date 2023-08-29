@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  title: Code Improve API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 1.0
+
+servers:
+  - url: http://localhost:8000/
+    description: Local server
+  # - url: https://prod.com/
+  #   description:  Pre Production server
+
+components:
+  securitySchemes:
+    ApiTokenss: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+
+    ApiKey: # arbitrary name for the security scheme
+      type: apiKey
+      in: header # can be "header", "query" or "cookie"
+      name: apikey
+
+paths:
+  # Get all RSS links
+  /api/allRssLinks:
+    get:
+      summary: Get all RSS links
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  url: "https://example.com/rss1"
+                - id: 2
+                  url: "https://example.com/rss2"
+        "500":
+          description: Internal Server Error
+
+  /api/oneLink:
+    post:
+      summary: Get an RSS link by country
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                country:
+                  type: string
+              example:
+                country: "United States"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  url: "https://example.com/rss1"
+                  country: "United States"
+                - id: 2
+                  url: "https://example.com/rss2"
+                  country: "United States"
+        "500":
+          description: Internal Server Error
+
+  /api/article/articles/months:
+    post:
+      summary: Get articles for a specific number of months
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                months:
+                  type: integer
+                  minimum: 1
+                  example: 3
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  title: "Article Title 1"
+                  pubDate: "2023-01-15"
+                - id: 2
+                  title: "Article Title 2"
+                  pubDate: "2023-02-10"
+        "500":
+          description: Internal Server Error
+
+# Get all country Articles Number
+  /api/country/getallCountryArticles:
+    get:
+      summary: Get all country articles data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - countryName: "Country 1"
+                  flagLogo: "https://example.com/flag1.png"
+                  Articles: 123
+                  type: "Type 1"
+                - countryName: "Country 2"
+                  flagLogo: "https://example.com/flag2.png"
+                  Articles: 456
+                  type: "Type 2"
+        "404":
+          description: Country data not found
+        "500":
+          description: Internal Server Error
+
