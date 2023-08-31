@@ -13,21 +13,22 @@ const app = express();
 
 
 
-const allowedOrigins = ["http://localhost:3000"];
+// const allowedOrigins = ["http://localhost:3000"];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: "GET, POST, PUT, DELETE",
-  allowedHeaders: "Content-Type, Authorization",
-};
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (allowedOrigins.includes(origin) || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: "GET, POST, PUT, DELETE",
+//   allowedHeaders: "Content-Type, Authorization",
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 
 // middleware
 
