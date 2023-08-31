@@ -270,6 +270,7 @@ const deleteAllarticles = async (req, res) => {
   }
 };
 
+// get all articles from all countries for given months
 const getArticlesForMonths = async (req, res) => {
   try {
     const months = parseInt(req.body.months);

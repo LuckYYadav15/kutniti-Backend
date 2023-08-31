@@ -5,10 +5,11 @@ info:
   version: 1.0
 
 servers:
+  - url: http://65.2.183.51:8000
+    description:  Pre Production server
   - url: http://localhost:8000/
     description: Local server
-  # - url: https://prod.com/
-  #   description:  Pre Production server
+  
 
 components:
   securitySchemes:
@@ -30,18 +31,6 @@ paths:
       summary: Get all RSS links
       tags:
         - RSS_Link_API
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              example:
-                - id: 1
-                  url: "https://example.com/rss1"
-                - id: 2
-                  url: "https://example.com/rss2"
-        "500":
-          description: Internal Server Error
 
   # Get one Rss Link
   /api/oneLink:
@@ -60,24 +49,32 @@ paths:
                   type: string
               example:
                 country: "USA"
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              example:
-                - id: 1
-                  url: "https://example.com/rss1"
-                  country: "United States"
-                - id: 2
-                  url: "https://example.com/rss2"
-                  country: "United States"
-        "500":
-          description: Internal Server Error
-
   # Articles APIs
 
+  # Get all articles for all countries
+  /api/article/getAllArticles:
+    get:
+      summary: Get all articles for all countries
+      tags:
+        - Articles APIs
 
+  # Get all articles for all countries with a specific month
+  /api/article/getArticlesForMonths:
+    post:
+      summary: Get articles from all countries for a given number of months
+      tags:
+        - Articles APIs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                months:
+                  type: integer
+                  minimum: 1
+                  example: 3
   # Country APIs
 
   # get all country's information such as article numbers
@@ -86,25 +83,6 @@ paths:
       summary: Get all country articles data
       tags:
         - Country_API
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              example:
-                - countryName: "Country 1"
-                  flagLogo: "https://example.com/flag1.png"
-                  Articles: 123
-                  type: "Type 1"
-                - countryName: "Country 2"
-                  flagLogo: "https://example.com/flag2.png"
-                  Articles: 456
-                  type: "Type 2"
-        "404":
-          description: Country data not found
-        "500":
-          description: Internal Server Error
-
   # get number of articles for a specific country
   /api/country/getaCountryArticleNumber:
     post:
@@ -121,24 +99,6 @@ paths:
                 countryName:
                   type: string
                   example: "USA"
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              example:
-                - countryName: "Country 1"
-                  flagLogo: "https://example.com/flag1.png"
-                  Articles: 123
-                  type: "Type 1"
-        "404":
-          description: Country data not found
-          content:
-            application/json:
-              example:
-                error: "Country data not found"
-        "500":
-          description: Number of articles for Country not found
 
   # Get all country articles for a specific number of month
   /api/country/getallCountryArticlesMonth:
@@ -146,26 +106,6 @@ paths:
       summary: Get all country articles' publication dates
       tags:
         - Country_API
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              example:
-                - country_id: 1
-                  country: "Country 1"
-                  type: "Type 1"
-                  pubDates:
-                    - "2023-01-15"
-                    - "2023-01-20"
-                - country_id: 2
-                  country: "Country 2"
-                  type: "Type 2"
-                  pubDates:
-                    - "2023-01-05"
-                    - "2023-01-12"
-        "500":
-          description: Internal Server Error
 
   # Get a country's articles for a specific number of month
   /api/country/getoneCountryArticlesMonth:
@@ -183,23 +123,3 @@ paths:
                 countryName:
                   type: string
                   example: "USA"
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              example:
-                - country_id: 1
-                  country: "Country 1"
-                  type: "Type 1"
-                  pubDates:
-                    - "2023-01-15"
-                    - "2023-02-10"
-                - country_id: 2
-                  country: "Country 2"
-                  type: "Type 2"
-                  pubDates:
-                    - "2023-03-20"
-                    - "2023-04-05"
-        "500":
-          description: Internal Server Error
