@@ -28,6 +28,7 @@ const addCountry = async (req, res) => {
   }
 };
 
+// helper api function
 const getAllCountryData = async (req, res) => {
   try {
     const rssLinks = await RSSLink.findAll({
@@ -47,6 +48,7 @@ const getAllCountryData = async (req, res) => {
   }
 };
 
+// store all the articles for all countries
 const storeAllCountryArticles = async (req, res) => {
   try {
     // Fetch the total number of articles for the given country
@@ -101,7 +103,7 @@ const storeAllCountryArticles = async (req, res) => {
 };
 
 // Get number of articles for a country
-const getaCountryArticle = async (req, res) => {
+const getaCountryArticleNumber = async (req, res) => {
   try {
     const { countryName } = req.body;
 
@@ -124,9 +126,9 @@ const getaCountryArticle = async (req, res) => {
   }
 };
 
-const getallCountryArticles = async (req, res) => {
+const getallCountryArticleNumber = async (req, res) => {
   try {
-    // Fetch the flagLogo, Articles, and type for the given countryName
+    // Fetch the flagLogo, Articles, and type for all Countries
     const countryData = await CountryCount.findAll({
       where: {},
       attributes: ["countryName", "flagLogo", "Articles", "type"],
@@ -156,8 +158,8 @@ const deleteCountry = async (req, res) => {
   }
 };
 
-// get one country's number of articles of all types
-const getoneCountryArticles = async (req, res) => {
+// get one country's number of articles of all types Month Wise
+const getoneCountryArticlesMonth = async (req, res) => {
   try {
     // Fetch country_id, country, and type from rssLinks
     const rssLinksData = await RSSLink.findAll({
@@ -223,9 +225,9 @@ const getallCountryArticlesMonth = async (req, res) => {
 module.exports = {
   storeAllCountryArticles,
   addCountry,
-  getaCountryArticle,
-  getoneCountryArticles,
-  getallCountryArticles,
+  getaCountryArticleNumber,
+  getoneCountryArticlesMonth,
+  getallCountryArticleNumber,
   getallCountryArticlesMonth,
   deleteCountry,
 };

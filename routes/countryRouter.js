@@ -10,10 +10,10 @@ cron.schedule("1 * * * *", () => {
 router.post("/addCountry", countryController.addCountry);
 router.get("/allcountryArticles", countryController.storeAllCountryArticles);
 router.post("/deleteCountry", countryController.deleteCountry);
-router.post("/getaCountryArticle", countryController.getaCountryArticle);
-router.get("/getallCountryArticles", countryController.getallCountryArticles);
+router.post("/getaCountryArticleNumber", countryController.getaCountryArticleNumber);
+router.get("/getallCountryArticleNumber", countryController.getallCountryArticleNumber);
 // router.post("/getoneCountryArticles", countryController.getoneCountryArticles);
-router.post("/getoneCountryArticles", countryController.getoneCountryArticles);
-router.post("/getallCountryArticlesMonth", countryController.getallCountryArticlesMonth);
+router.post("/getoneCountryArticlesMonth", countryController.getoneCountryArticlesMonth);
+router.get("/getallCountryArticlesMonth", countryController.getallCountryArticlesMonth);
 
 module.exports = router;

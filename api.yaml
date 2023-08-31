@@ -22,10 +22,14 @@ components:
       name: apikey
 
 paths:
+  # RSS APIs
+
   # Get all RSS links
   /api/allRssLinks:
     get:
       summary: Get all RSS links
+      tags:
+        - RSS_Link_API
       responses:
         "200":
           description: Successful response
@@ -39,9 +43,12 @@ paths:
         "500":
           description: Internal Server Error
 
+  # Get one Rss Link
   /api/oneLink:
     post:
       summary: Get an RSS link by country
+      tags:
+        - RSS_Link_API
       requestBody:
         required: true
         content:
@@ -52,7 +59,7 @@ paths:
                 country:
                   type: string
               example:
-                country: "United States"
+                country: "USA"
       responses:
         "200":
           description: Successful response
@@ -68,39 +75,17 @@ paths:
         "500":
           description: Internal Server Error
 
-  /api/article/articles/months:
-    post:
-      summary: Get articles for a specific number of months
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                months:
-                  type: integer
-                  minimum: 1
-                  example: 3
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              example:
-                - id: 1
-                  title: "Article Title 1"
-                  pubDate: "2023-01-15"
-                - id: 2
-                  title: "Article Title 2"
-                  pubDate: "2023-02-10"
-        "500":
-          description: Internal Server Error
+  # Articles APIs
 
-# Get all country Articles Number
-  /api/country/getallCountryArticles:
+
+  # Country APIs
+
+  # get all country's information such as article numbers
+  /api/country/getallCountryArticleNumber:
     get:
       summary: Get all country articles data
+      tags:
+        - Country_API
       responses:
         "200":
           description: Successful response
@@ -120,3 +105,101 @@ paths:
         "500":
           description: Internal Server Error
 
+  # get number of articles for a specific country
+  /api/country/getaCountryArticleNumber:
+    post:
+      summary: Get number of articles for a country
+      tags:
+        - Country_API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                countryName:
+                  type: string
+                  example: "USA"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - countryName: "Country 1"
+                  flagLogo: "https://example.com/flag1.png"
+                  Articles: 123
+                  type: "Type 1"
+        "404":
+          description: Country data not found
+          content:
+            application/json:
+              example:
+                error: "Country data not found"
+        "500":
+          description: Number of articles for Country not found
+
+  # Get all country articles for a specific number of month
+  /api/country/getallCountryArticlesMonth:
+    get:
+      summary: Get all country articles' publication dates
+      tags:
+        - Country_API
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - country_id: 1
+                  country: "Country 1"
+                  type: "Type 1"
+                  pubDates:
+                    - "2023-01-15"
+                    - "2023-01-20"
+                - country_id: 2
+                  country: "Country 2"
+                  type: "Type 2"
+                  pubDates:
+                    - "2023-01-05"
+                    - "2023-01-12"
+        "500":
+          description: Internal Server Error
+
+  # Get a country's articles for a specific number of month
+  /api/country/getoneCountryArticlesMonth:
+    post:
+      summary: Get a country's articles for a specific number of month
+      tags:
+        - Country_API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                countryName:
+                  type: string
+                  example: "USA"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - country_id: 1
+                  country: "Country 1"
+                  type: "Type 1"
+                  pubDates:
+                    - "2023-01-15"
+                    - "2023-02-10"
+                - country_id: 2
+                  country: "Country 2"
+                  type: "Type 2"
+                  pubDates:
+                    - "2023-03-20"
+                    - "2023-04-05"
+        "500":
+          description: Internal Server Error
