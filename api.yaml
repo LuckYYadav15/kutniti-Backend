@@ -142,3 +142,94 @@ paths:
       responses:
         "200":
           description: Successful response
+
+  # to get data for a given newspaper
+  /api/newspaper/getAllDataForNewspaper:
+    post:
+      summary: Get all data for a newspaper by name
+      tags:
+        - Newspaper_API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newspaperName:
+                  type: string
+              example:
+                newspaperName: "bbc.com"
+      responses:
+        "200":
+          description: Successful response
+
+  # add a newspaper to newspaper table
+  /api/newspaper/addNewspaper:
+    post:
+      summary: Add a new newspaper to table
+      tags:
+        - Newspaper_API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newspaper_name:
+                  type: string
+                  description: Name of the newspaper
+                link:
+                  type: string
+                  description: Link to the newspaper website
+                country:
+                  type: string
+                  description: Country where the newspaper is based
+                monthly_readers:
+                  type: integer
+                  description: Number of monthly readers
+                political_inclination:
+                  type: string
+                  description: Political inclination of the newspaper
+                basic_info:
+                  type: string
+                  description: Basic information about the newspaper
+                logo:
+                  type: string
+                  description: URL of the newspaper's logo
+                articles:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of article URLs
+              example:
+                example:
+                newspaper_name: "hindustan times"
+                link: "https://www.hindustantimes.com/"
+                country: "Bharat"
+                monthly_readers: 100000
+                political_inclination: "Right"
+                basic_info: "Hindustan Times offers the most reliable news in politics, sports, entertainment and business, featuring National and International news"
+                logo: "https://www.example.com/logo.png"
+                articles: "keep it empty"
+      responses:
+        "201":
+          description: Newspaper created successfully
+  /api/newspaper/getAllNewspapers:
+    get:
+      summary: Get a list of all newspapers
+      tags:
+        - Newspaper_API
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties: // Define the properties based on your newspaper data model
+        "500":
+          description: Internal Server Error

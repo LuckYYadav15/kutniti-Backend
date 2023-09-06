@@ -32,6 +32,7 @@ db.sequelize = sequelize;
 db.rssLinks = require("./rssLinkModel.js")(sequelize, DataTypes);
 db.articles = require("./articleModel.js")(sequelize, DataTypes);
 db.countries = require("./countryModel.js")(sequelize, DataTypes);
+db.newspaper = require("./newspaperModel.js")(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false }).then(() => {
   console.log("yes re-sync done!");

@@ -42,10 +42,12 @@ app.use(express.urlencoded({ extended: true }));
 const rssLinkrouter = require("./routes/rssLinkRouter.js");
 const articlerouter = require("./routes/articleRouter.js");
 const countryrouter = require("./routes/countryRouter.js");
+const newspaperRouter = require("./routes/newspaperRouter.js");
 
 app.use("/api", rssLinkrouter);
 app.use("/api/article", articlerouter);
 app.use("/api/country", countryrouter);
+app.use("/api/newspaper", newspaperRouter);
 
 
 //---------------------------------------------SERVER------------------------------------------

@@ -11,6 +11,10 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING(255),
         allowNull: false,
       },
+      type: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
+      },
       link: {
         type: Sequelize.STRING(255),
         allowNull: false,

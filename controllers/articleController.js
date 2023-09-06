@@ -154,7 +154,10 @@ const getAllCountryData = async (req, res) => {
       country_id: rssLink.country_id,
       type: rssLink.type,
     }));
-    console.log("countryLinkData.country");
+
+    // Log the countryLinkData including "type"
+    console.log("countryLinkData:", countryLinkData);
+
     return countryLinkData;
   } catch (error) {
     console.error("Error fetching countries and links:", error);
@@ -164,7 +167,8 @@ const getAllCountryData = async (req, res) => {
 
 const fetchDataDailyArticle = async (req, res) => {
   try {
-    // Fetch countries, links, and country_ids from RSSLink table
+    console.log("hi fetDataDailyArticle")
+    // Fetch countries, links, and country_ids from RSSLink table, including "type"
     const countryLinkData = await getAllCountryData();
 
     // Create an instance of the RSS Parser
@@ -175,19 +179,26 @@ const fetchDataDailyArticle = async (req, res) => {
 
     // Fetch and store articles for each country and link
     await Promise.all(
-      countryLinkData.map(async ({ link, country_id }) => {
+      countryLinkData.map(async ({ link, country_id, type }) => {
+        // Step 1: Include "type"
         try {
           const feed = await parser.parseURL(link);
-          const newArticles = feed.items.map((item) => ({
-            title: item.title,
-            link: item.link,
-            pubDate: item.pubDate,
-            author: item.author,
-            content: item.content,
-            contentSnippet: item.contentSnippet,
-            summary: item.summary,
-            country_id: country_id,
-          }));
+          const newArticles = feed.items.map((item) => {
+            // Log the "type" field for debugging
+            console.log(`Type for link ${link}: ${type}`);
+
+            return {
+              title: item.title,
+              link: item.link,
+              type: type, // Step 2: Include "type" from RSSLink table
+              pubDate: item.pubDate,
+              author: item.author,
+              content: item.content,
+              contentSnippet: item.contentSnippet,
+              summary: item.summary,
+              country_id: country_id,
+            };
+          });
 
           await Promise.all(
             newArticles.map(async (newArticle) => {
