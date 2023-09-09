@@ -169,9 +169,10 @@ async function countArticlesByMonthAndType(newspaperName) {
 
     if (!articleCounts[month]) {
       articleCounts[month] = {
-        neutral: 0,
-        positive: 0,
-        negative: 0,
+        Neutral: 0,
+        Positive: 0,
+        Negative: 0,
+        All:0,
       };
     }
 
