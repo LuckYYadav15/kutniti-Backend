@@ -57,6 +57,23 @@ const getAllArticles = async (req, res) => {
   }
 };
 
+const getAllArticlesByNewspaper = async (req, res) => {
+  const { newspaperName } = req.body; // Extract the newspaper name from the request parameters
+
+  try {
+    // Query the database to retrieve articles by newspaper name
+    const articles = await Article.findAll({
+      where: { author: newspaperName }, // Replace 'newspaper_name' with the actual column name in your table
+    });
+
+    // Send the articles as JSON response
+    res.status(200).json(articles);
+  } catch (err) {
+    console.error("Error retrieving articles:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const fetchDataAndStoreInArticle = async (req, res) => {
   try {
     // console.log("Fetching articles from RSS links");
@@ -312,6 +329,7 @@ module.exports = {
   fetchDataAndStoreInArticle,
   getArticlesForMonths,
   getAllArticles,
+  getAllArticlesByNewspaper,
   getCountryId,
   fetchDataDailyArticle,
   deleteAllarticles,
