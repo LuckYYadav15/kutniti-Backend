@@ -25,5 +25,5 @@ router.post("/deleteAllArticles", articleController.deleteAllarticles);
 // GET all articles for a given month
 router.post("/getArticlesForMonths", articleController.getArticlesForMonths);
 // Get all articles data for a given newspaper
-router.get("/getAllArticlesByNewspaper", articleController.getAllArticlesByNewspaper);
+router.post("/getAllArticlesByNewspaper", articleController.getAllArticlesByNewspaper);
 module.exports = router;
